@@ -78,7 +78,7 @@ int main() {
         keys[RIGHT] = true;
         break;
       case ALLEGRO_KEY_SPACE:
-        fireBullet(bullets, 100, ship);
+        keys[SPACE] = true;
         break;
       }
     }
@@ -111,6 +111,11 @@ int main() {
       if (keys[RIGHT]) {
         rotate_right(ship);
       }
+      if (keys[SPACE]) {
+        fireBullet(bullets, 100, ship);
+        keys[SPACE] = false;
+      }
+      updateBullets(bullets, 100);
       friction(ship);
       //  Set ship's position
       ship.coorY += -ship.velocityY;
@@ -132,11 +137,10 @@ int main() {
     if (redraw && al_is_event_queue_empty(event_queue)) {
       redraw = false;
       al_clear_to_color(al_map_rgb(0, 0, 0));
-      updateBullets(bullets, 100);
+      drawBullet(bullets, 100, WIDTH, HEIGHT);
       al_draw_rotated_bitmap(
           image, ship.width / 2.0, ship.height / 2.0, ship.coorX + WIDTH / 2.0,
           ship.coorY + HEIGHT / 2.0, -ship.angle * (M_PI / 180.0), 0);
-      drawBullet(bullets, 100);
 
       // Log to screen
       al_draw_textf(font, al_map_rgb(255, 255, 255), 15, 15, 0,

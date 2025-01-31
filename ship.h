@@ -5,6 +5,8 @@
 #include <allegro5/color.h>
 #include <cmath>
 
+#define MAX_SPEED 7
+#define ROTATE_SPPED 2.3
 struct Ship{
   int width;
   int height;

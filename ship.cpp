@@ -20,21 +20,17 @@ void createShip(Ship &ship) {
 
 void drawShip(Ship &ship) {
   //Because the thinkness of the outline is 3, the 1.5 is so that the lines do not go out of the bitmap
-  //Filled the ship with black
-  al_draw_filled_triangle(1.5, ship.height - 1.5, 1.5, 0 + 1.5, ship.width,
-                          ship.height / 2.0, al_map_rgb(0, 0, 0));
-  //Draw the outline of the ship
   al_draw_triangle(1.5, ship.height - 1.5, 1.5, 0 + 1.5, ship.width,
-                   ship.height / 2.0, al_map_rgb(255, 255, 255), 3);
+                   ship.height / 2.0, al_map_rgb(255, 255, 255), 2);
 }
 
 void rotate_right(Ship &ship) {
-  ship.angle -= 2.3;
+  ship.angle -= ROTATE_SPPED;
   if (ship.angle < -180)
     ship.angle = 180;
 }
 void rotate_left(Ship &ship) {
-  ship.angle += 2.3;
+  ship.angle += ROTATE_SPPED;
   if (ship.angle > 180)
     ship.angle = -180;
 }
@@ -43,10 +39,10 @@ void move_ship(Ship &ship) {
   if (ship.acceleration < 0.15) {
     ship.acceleration += 0.05;
   }
-  // Capping the speed at 9 pixel/frame
+  // Capping the speed
   float speed =
       sqrt(ship.velocityX * ship.velocityX + ship.velocityY * ship.velocityY);
-  if (speed < 7) {
+  if (speed < MAX_SPEED) {
     ship.velocityX += ship.acceleration * cos(ship.angle * (M_PI / 180.0));
     ship.velocityY += ship.acceleration * sin(ship.angle * (M_PI / 180.0));
   }
